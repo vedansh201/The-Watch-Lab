@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Archive · Watch Lab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="brand" href="index.html">
+    <span class="brand-mark">⌚</span>
+    <span class="brand-word">Watch Lab</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">The Lab</a>
+    <a class="nav-link active" href="discover.html">The Archive</a>
+  </div>
+  <div class="nav-progress" id="navProgress"></div>
+</nav>
+
+<main class="shell">
+
+  <header class="page-head">
+    <h1 class="page-title">Everything discovered so far</h1>
+    <p class="page-lede">Every element, every reaction, and every watch you've built — locked entries stay hidden until you find them in the Lab.</p>
+  </header>
+
+  <div class="stats-row" id="statsRow"></div>
+
+  <!-- no top border here, the stats row above already acts as the divider -->
+  <section class="section" style="margin-top:32px;padding-top:0;border-top:none;">
+    <h2 class="section-title">All elements</h2>
+    <p class="section-note">Locked elements are shown greyed out until unlocked in the Lab.</p>
+    <div class="element-grid" id="archiveGrid"></div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Discovery combinations</h2>
+    <p class="section-note">Every known reaction between two elements — the ones you haven't found yet stay hidden.</p>
+    <div class="combo-list" id="comboList"></div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Watches created</h2>
+    <p class="section-note">Every watch you've generated in the Lab, saved here automatically.</p>
+    <div class="watch-gallery" id="watchGallery"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">Watch Lab — element data loaded from data.json · state saved locally in your browser</footer>
+
+<script src="app.js"></script>
+<script src="archive.js"></script>
+</body>
+</html>
