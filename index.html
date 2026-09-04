@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Watch Lab · Watch Lab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="brand" href="index.html">
+    <span class="brand-mark">⌚</span>
+    <span class="brand-word">Watch Lab</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link active" href="index.html">The Lab</a>
+    <a class="nav-link" href="discover.html">The Archive</a>
+  </div>
+  <div class="nav-progress" id="navProgress"></div>
+</nav>
+
+<main class="shell">
+
+  <header class="page-head">
+    <h1 class="page-title">Build a watch from raw elements</h1>
+    <p class="page-lede">Assign an element to each of the five slots below. Combine unlocked elements to find reactions that unlock new ones.</p>
+  </header>
+
+  <div class="bench">
+
+    <!-- live preview, updates the instant a slot changes -->
+    <aside class="preview-pane">
+      <div class="watch-svg-wrap" id="previewWrap"></div>
+      <div class="digital-time" id="digitalTime-preview">--:--:--</div>
+      <p class="preview-caption">Ticks in real time — your device's clock.</p>
+      <button class="generate-btn" id="generateBtn" disabled>Fill all 5 slots (0/5)</button>
+      <div class="saved-count" id="savedCount"></div>
+      <div class="result-panel" id="resultPanel"></div>
+    </aside>
+
+    <section>
+      <div class="slot-rail" id="slotRail"></div>
+      <div class="element-grid" id="elementGrid"></div>
+    </section>
+
+  </div>
+
+  <section class="section">
+    <h2 class="section-title">Discovery lab</h2>
+    <p class="section-note">Combine two unlocked elements. Some pairs unlock a new element, some produce a named watch discovery, and some do nothing at all.</p>
+    <div class="combine-bar" id="combineBar"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">Watch Lab — element data loaded from data.json · state saved locally in your browser</footer>
+
+<div class="modal-overlay" id="modalOverlay"></div>
+
+<script src="app.js"></script>
+<script src="lab.js"></script>
+</body>
+</html>
