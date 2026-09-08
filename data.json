@@ -1,0 +1,144 @@
+{
+  "elements": [
+    {
+      "id": "fire",
+      "symbol": "🔥",
+      "name": "Fire",
+      "startUnlocked": true,
+      "rarity": "common",
+      "color": "#FF6B35",
+      "colorDark": "#B8451A",
+      "description": "Raw combustion. Volatile, bright, quick to consume whatever it touches.",
+      "properties": ["Heat output: extreme", "Stability: low", "Origin: primordial"]
+    },
+    {
+      "id": "water",
+      "symbol": "💧",
+      "name": "Water",
+      "startUnlocked": true,
+      "rarity": "common",
+      "color": "#3EC1D3",
+      "colorDark": "#1D7A8C",
+      "description": "Flowing and adaptive. Wears down anything given enough time.",
+      "properties": ["Fluidity: high", "Pressure: adaptive", "Origin: primordial"]
+    },
+    {
+      "id": "nature",
+      "symbol": "🌿",
+      "name": "Nature",
+      "startUnlocked": true,
+      "rarity": "common",
+      "color": "#6BBF59",
+      "colorDark": "#3E7A32",
+      "description": "Slow growth, patient decay. Nothing here is in a hurry.",
+      "properties": ["Growth rate: steady", "Resilience: high", "Origin: primordial"]
+    },
+    {
+      "id": "electric",
+      "symbol": "⚡",
+      "name": "Electric",
+      "startUnlocked": false,
+      "rarity": "uncommon",
+      "color": "#F4D35E",
+      "colorDark": "#B89A2E",
+      "description": "Born when fire meets water — pure discharged energy with nowhere calm to settle.",
+      "properties": ["Conductivity: extreme", "Volatility: high", "Origin: reaction"]
+    },
+    {
+      "id": "shadow",
+      "symbol": "🌙",
+      "name": "Shadow",
+      "startUnlocked": false,
+      "rarity": "uncommon",
+      "color": "#7B6BA8",
+      "colorDark": "#4A3E70",
+      "description": "What's left once water has quietly worn the light out of nature.",
+      "properties": ["Density: variable", "Visibility: low", "Origin: reaction"]
+    },
+    {
+      "id": "ice",
+      "symbol": "🧊",
+      "name": "Ice",
+      "startUnlocked": false,
+      "rarity": "rare",
+      "color": "#A0E7E5",
+      "colorDark": "#4FA3A1",
+      "description": "Water and shadow, frozen mid-thought.",
+      "properties": ["Heat output: none", "Stability: high", "Origin: fusion"]
+    },
+    {
+      "id": "magma",
+      "symbol": "🌋",
+      "name": "Magma",
+      "startUnlocked": false,
+      "rarity": "rare",
+      "color": "#D64545",
+      "colorDark": "#8C1F1F",
+      "description": "Fire dragged through shadow until it thickened into something slower and heavier.",
+      "properties": ["Heat output: extreme", "Density: high", "Origin: fusion"]
+    },
+    {
+      "id": "cosmic",
+      "symbol": "🌌",
+      "name": "Cosmic",
+      "startUnlocked": false,
+      "rarity": "epic",
+      "color": "#9B5DE5",
+      "colorDark": "#5B2E96",
+      "description": "Electric current with nowhere left to go but out of this world.",
+      "properties": ["Origin: unknown", "Stability: unmeasurable", "Density: theoretical"]
+    }
+  ],
+  "unlockCombos": [
+    {
+      "elements": ["fire", "water"],
+      "unlocks": "electric",
+      "rarity": "uncommon"
+    },
+    {
+      "elements": ["nature", "water"],
+      "unlocks": "shadow",
+      "rarity": "uncommon"
+    },
+    {
+      "elements": ["fire", "shadow"],
+      "unlocks": "magma",
+      "rarity": "rare"
+    },
+    {
+      "elements": ["water", "shadow"],
+      "unlocks": "ice",
+      "rarity": "rare"
+    },
+    {
+      "elements": ["electric", "shadow"],
+      "unlocks": "cosmic",
+      "rarity": "epic"
+    }
+  ],
+  "watchDiscoveries": [
+    {
+      "elements": ["fire", "ice"],
+      "name": "Thermal",
+      "symbol": "🌡️",
+      "rarity": "legendary",
+      "description": "Two extremes bound to the same wrist, refusing to agree on a temperature."
+    },
+    {
+      "elements": ["water", "electric"],
+      "name": "Storm",
+      "symbol": "🌩️",
+      "rarity": "epic",
+      "description": "A current with nowhere to discharge except through the second hand."
+    },
+    {
+      "elements": ["shadow", "cosmic"],
+      "name": "Void",
+      "symbol": "🕳️",
+      "rarity": "mythic",
+      "description": "It doesn't tell the time so much as remind you that it's passing."
+    }
+  ]
+}
+
+
