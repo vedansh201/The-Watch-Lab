@@ -11,6 +11,7 @@
       "description": "Raw combustion. Volatile, bright, quick to consume whatever it touches.",
       "properties": ["Heat output: extreme", "Stability: low", "Origin: primordial"]
     },
+
     {
       "id": "water",
       "symbol": "💧",
@@ -22,6 +23,7 @@
       "description": "Flowing and adaptive. Wears down anything given enough time.",
       "properties": ["Fluidity: high", "Pressure: adaptive", "Origin: primordial"]
     },
+
     {
       "id": "nature",
       "symbol": "🌿",
@@ -33,6 +35,7 @@
       "description": "Slow growth, patient decay. Nothing here is in a hurry.",
       "properties": ["Growth rate: steady", "Resilience: high", "Origin: primordial"]
     },
+
     {
       "id": "electric",
       "symbol": "⚡",
@@ -44,6 +47,7 @@
       "description": "Born when fire meets water — pure discharged energy with nowhere calm to settle.",
       "properties": ["Conductivity: extreme", "Volatility: high", "Origin: reaction"]
     },
+
     {
       "id": "shadow",
       "symbol": "🌙",
@@ -55,6 +59,7 @@
       "description": "What's left once water has quietly worn the light out of nature.",
       "properties": ["Density: variable", "Visibility: low", "Origin: reaction"]
     },
+
     {
       "id": "ice",
       "symbol": "🧊",
@@ -66,6 +71,7 @@
       "description": "Water and shadow, frozen mid-thought.",
       "properties": ["Heat output: none", "Stability: high", "Origin: fusion"]
     },
+
     {
       "id": "magma",
       "symbol": "🌋",
@@ -77,6 +83,7 @@
       "description": "Fire dragged through shadow until it thickened into something slower and heavier.",
       "properties": ["Heat output: extreme", "Density: high", "Origin: fusion"]
     },
+
     {
       "id": "cosmic",
       "symbol": "🌌",
@@ -95,21 +102,25 @@
       "unlocks": "electric",
       "rarity": "uncommon"
     },
+
     {
       "elements": ["nature", "water"],
       "unlocks": "shadow",
       "rarity": "uncommon"
     },
+
     {
       "elements": ["fire", "shadow"],
       "unlocks": "magma",
       "rarity": "rare"
     },
+
     {
       "elements": ["water", "shadow"],
       "unlocks": "ice",
       "rarity": "rare"
     },
+
     {
       "elements": ["electric", "shadow"],
       "unlocks": "cosmic",
@@ -124,6 +135,7 @@
       "rarity": "legendary",
       "description": "Two extremes bound to the same wrist, refusing to agree on a temperature."
     },
+
     {
       "elements": ["water", "electric"],
       "name": "Storm",
@@ -131,6 +143,7 @@
       "rarity": "epic",
       "description": "A current with nowhere to discharge except through the second hand."
     },
+
     {
       "elements": ["shadow", "cosmic"],
       "name": "Void",
