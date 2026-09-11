@@ -62,7 +62,14 @@ button { font-family: inherit; cursor: pointer; }
   outline-offset: 2px;
 }
 
-/* layout shell */
+.icon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: -0.15em;
+  flex-shrink: 0;
+}
+
 
 .shell {
   max-width: 1140px;
@@ -70,7 +77,6 @@ button { font-family: inherit; cursor: pointer; }
   padding: 0 28px 90px;
 }
 
-/* top nav — deliberately lopsided rather than three even columns */
 
 .topnav {
   display: flex;
@@ -151,7 +157,6 @@ button { font-family: inherit; cursor: pointer; }
   transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* section headers */
 
 .page-head { margin-bottom: 40px; max-width: 640px; }
 
@@ -191,7 +196,6 @@ button { font-family: inherit; cursor: pointer; }
   max-width: 60ch;
 }
 
-/* watch preview — the one place we let a hard graphic shadow do the work */
 
 .bench {
   display: grid;
@@ -298,7 +302,6 @@ button { font-family: inherit; cursor: pointer; }
   cursor: not-allowed;
 }
 
-/* the five slots */
 
 .slot-rail {
   display: grid;
@@ -342,10 +345,6 @@ button { font-family: inherit; cursor: pointer; }
 
 .slot.filled .slot-symbol { filter: drop-shadow(0 0 4px currentColor); }
 
-/* element cards — treated like specimen index cards, colour-tabbed
-   by the element rather than glowing on hover like every other
-   card kit on the internet */
-
 .element-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
@@ -378,9 +377,10 @@ button { font-family: inherit; cursor: pointer; }
   background-image: repeating-linear-gradient(135deg, transparent 0 6px, rgba(36,31,25,0.05) 6px 7px);
 }
 
-.el-card.locked .el-symbol { filter: grayscale(1) brightness(0.55); }
+.el-card.locked .el-symbol { color: var(--ink-soft); }
 
 .el-symbol {
+  color: var(--el-color, var(--ink));
   font-size: 1.85rem;
   line-height: 1;
   margin-bottom: 10px;
@@ -429,7 +429,6 @@ button { font-family: inherit; cursor: pointer; }
 
 .lock-icon { font-size: 0.85rem; }
 
-/* discovery lab combine bar */
 
 .combine-bar {
   display: flex;
@@ -481,7 +480,6 @@ button { font-family: inherit; cursor: pointer; }
 
 .combine-hint { color: var(--ink-soft); font-size: 0.85rem; font-style: italic; }
 
-/* stats row, archive page */
 
 .stats-row {
   display: grid;
@@ -512,8 +510,6 @@ button { font-family: inherit; cursor: pointer; }
   margin-top: 4px;
 }
 
-/* discovery combination list, archive page */
-
 .combo-list { display: flex; flex-direction: column; }
 
 .combo-row {
@@ -534,7 +530,6 @@ button { font-family: inherit; cursor: pointer; }
 .combo-result-name { font-family: var(--font-serif); font-weight: 600; }
 .combo-desc { color: var(--ink-soft); font-size: 0.85rem; font-style: italic; flex-basis: 100%; margin-top: 2px; }
 
-/* created watches gallery */
 
 .watch-gallery {
   display: grid;
@@ -554,8 +549,6 @@ button { font-family: inherit; cursor: pointer; }
   font-style: italic;
   padding: 20px 0;
 }
-
-/* the unlock / discovery modal — the other place a hard shadow earns its keep */
 
 .modal-overlay {
   position: fixed;
@@ -621,9 +614,6 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 1.1rem;
 }
 
-/* glow animations for the special-effect slot — the one bit of
-   continuous motion, tied to the watch you actually built rather
-   than a decorative hover flourish */
 
 @keyframes pulse-glow {
   0%, 100% { filter: drop-shadow(0 0 5px var(--fx-color, transparent)); }
@@ -638,7 +628,6 @@ button { font-family: inherit; cursor: pointer; }
 .fx-pulse { animation: pulse-glow 2.4s ease-in-out infinite; }
 .fx-orbit { animation: slow-spin 12s linear infinite; transform-origin: center; }
 
-/* footer */
 
 .site-footer {
   margin-top: 76px;

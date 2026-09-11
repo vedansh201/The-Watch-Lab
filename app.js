@@ -1,9 +1,3 @@
-// Shared logic for both pages. Loaded before lab.js / archive.js,
-// which both just call into the WatchLab object below.
-//
-// State lives in localStorage so it survives page reloads and carries
-// over between index.html and discover.html without needing a backend.
-
 const WatchLab = (() => {
   const STORAGE_KEYS = {
     unlocked: 'watchlab_unlocked',
@@ -20,7 +14,6 @@ const WatchLab = (() => {
     mythic: 'Mythic',
   };
 
-  // low to high, used to average rarity across a watch's five elements
   const RARITY_ORDER = ['common', 'uncommon', 'rare', 'epic', 'legendary', 'mythic'];
 
   let DATA = null; // filled in once by loadData() — { elements, unlockCombos, watchDiscoveries }
@@ -34,8 +27,6 @@ const WatchLab = (() => {
     return DATA;
   }
 
-  // first visit ever: seed localStorage so the rest of the app doesn't
-  // have to keep checking "is this null?" everywhere
   function ensureInitialState() {
     if (localStorage.getItem(STORAGE_KEYS.unlocked) === null) {
       const startIds = DATA.elements.filter(e => e.startUnlocked).map(e => e.id);
@@ -49,7 +40,6 @@ const WatchLab = (() => {
     }
   }
 
-  // --- elements ---
 
   function allElements() { return DATA.elements; }
 
@@ -77,8 +67,6 @@ const WatchLab = (() => {
     return JSON.parse(localStorage.getItem(STORAGE_KEYS.combos) || '[]');
   }
 
-  // order shouldn't matter when combining fire+water vs water+fire,
-  // so just sort the pair before turning it into a key
   function comboKey(a, b) { return [a, b].sort().join('+'); }
 
   function markComboDiscovered(a, b) {
@@ -101,7 +89,7 @@ const WatchLab = (() => {
 
   function addWatch(watch) {
     const list = getWatches();
-    list.unshift(watch); // newest first, feels more natural in the gallery
+    list.unshift(watch); 
     localStorage.setItem(STORAGE_KEYS.watches, JSON.stringify(list));
     return watch;
   }
@@ -112,8 +100,6 @@ const WatchLab = (() => {
     );
   }
 
-  // Combine two element ids and see what happens. Checks the unlock
-  // table first, then the watch-discovery table, then gives up.
   function tryCombine(idA, idB) {
     const unlockMatch = DATA.unlockCombos.find(
       c => comboKey(c.elements[0], c.elements[1]) === comboKey(idA, idB)
@@ -138,16 +124,41 @@ const WatchLab = (() => {
       return { type: 'watch', alreadyKnown, discovery: watchMatch };
     }
 
-    return null; // no reaction between these two
+    return null; 
   }
-
-  // --- rarity helpers ---
 
   function rarityLabel(r) { return RARITY_LABEL[r] || r; }
 
   function rarityVar(r) { return `var(--rarity-${r})`; }
 
-  // --- nav progress bar, shared between both pages ---
+
+  const ICON_PATHS = {
+    fire: '<path d="M12 3c-3 3-5 6-5 9a5 5 0 0 0 10 0c0-1.5-.5-2.5-1-3 .2 1.8-1 3-2 3-1.2 0-2-1-1-2.5C14 7 12 5 12 3z"/>',
+    water: '<path d="M12 3c3 4 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-7 6-11z"/>',
+    nature: '<path d="M4 20C4 10 10 4 20 4c0 10-6 16-16 16z"/><path d="M4 20 20 4"/>',
+    electric: '<path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/>',
+    shadow: '<path d="M15 3a9 9 0 1 0 6 15 7 7 0 0 1-6-15z"/>',
+    ice: '<path d="M12 2v20M4.9 4.9l14.2 14.2M4.9 19.1 19.1 4.9"/>',
+    magma: '<path d="M12 3 3 20h18L12 3z"/><path d="M12 3v6"/><circle cx="12" cy="17" r="1.3"/>',
+    cosmic: '<circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(35 12 12)"/>',
+    thermal: '<rect x="10" y="3" width="4" height="12" rx="2"/><circle cx="12" cy="18" r="3"/>',
+    storm: '<path d="M7 16a4 4 0 0 1 .5-8 5 5 0 0 1 9.7 1.2A3.5 3.5 0 0 1 17 16H7z"/><path d="M13 16l-2 4h3l-2 4"/>',
+    void: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/>',
+    lock: '<rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+    check: '<polyline points="4,12 9,17 20,6"/>',
+    close: '<path d="M5 5l14 14M19 5 5 19"/>',
+    none: '<circle cx="12" cy="12" r="9"/><path d="M6 6l12 12"/>',
+    watch: '<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/><rect x="10" y="1.5" width="4" height="2" rx="0.5"/>',
+  };
+
+  function icon(name) {
+    const path = ICON_PATHS[name] || ICON_PATHS.none;
+    return `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
+  }
+
+  function coloredIcon(name, color) {
+    return `<span style="color:${color}">${icon(name)}</span>`;
+  }
 
   function renderNavProgress(mountEl) {
     const total = DATA.elements.length;
@@ -158,11 +169,6 @@ const WatchLab = (() => {
     `;
   }
 
-  // --- watch SVG ---
-
-  // which glow animation each element's "special effect" slot gets.
-  // cosmic spins slowly because it felt right for something described
-  // as "nowhere left to go but out of this world" — everything else pulses.
   const FX_ANIMATION = {
     fire: 'fx-pulse',
     electric: 'fx-pulse',
@@ -174,11 +180,6 @@ const WatchLab = (() => {
     magma: 'fx-pulse',
   };
 
-  // Builds one watch as an SVG string. config = { caseEl, dialEl, handsEl,
-  // strapEl, effectEl } — each is either an element object or null.
-  // idSuffix has to be unique per instance on the page, since gradient
-  // and hand ids need to not collide when several watches render at once
-  // (e.g. the mini gallery cards on the Archive page).
   function buildWatchSVG(config, opts = {}) {
     const idSuffix = opts.idSuffix || Math.random().toString(36).slice(2, 8);
     const c = config.caseEl;
@@ -187,7 +188,6 @@ const WatchLab = (() => {
     const s = config.strapEl;
     const fx = config.effectEl;
 
-    // fall back to plain greys if a slot hasn't been filled yet
     const caseColor = c ? c.color : '#3a4150';
     const caseDark = c ? c.colorDark : '#20242c';
     const dialColor = d ? d.color : '#20242c';
@@ -198,7 +198,6 @@ const WatchLab = (() => {
 
     const cx = 130, cy = 130;
 
-    // 12 tick marks around the dial, every 3rd one drawn a bit thicker/longer
     let ticks = '';
     for (let i = 0; i < 12; i++) {
       const angle = (i * 30) * (Math.PI / 180);
@@ -264,9 +263,6 @@ const WatchLab = (() => {
 </svg>`.trim();
   }
 
-  // Wires up a live clock for one rendered watch. idSuffix has to match
-  // whatever was passed to buildWatchSVG for this instance, since that's
-  // how it finds the right <g> elements to rotate.
   function startClock(idSuffix) {
     function tick() {
       const now = new Date();
@@ -290,7 +286,7 @@ const WatchLab = (() => {
         digital.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       }
     }
-    tick(); // paint immediately, don't wait a full second for the first frame
+    tick(); 
     return setInterval(tick, 1000);
   }
 
@@ -314,6 +310,8 @@ const WatchLab = (() => {
     tryCombine,
     rarityLabel,
     rarityVar,
+    icon,
+    coloredIcon,
     renderNavProgress,
     buildWatchSVG,
     startClock,

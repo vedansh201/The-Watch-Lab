@@ -1,6 +1,3 @@
-// Logic for index.html — the Lab. Handles slot picking, the element
-// grid, generating a watch, and the discovery combine bar.
-
 (async function () {
   await WatchLab.loadData();
 
@@ -12,11 +9,11 @@
     { key: 'effectEl', label: 'Special effect' },
   ];
 
-  // what's currently sitting in each slot, before the watch is generated
+  
   const selection = { caseEl: null, dialEl: null, handsEl: null, strapEl: null, effectEl: null };
-  let activeSlot = 'caseEl'; // whichever slot clicking an element card will fill
+  let activeSlot = 'caseEl'; 
 
-  const combineChoice = { a: null, b: null }; // the two elements picked in the discovery bar
+  const combineChoice = { a: null, b: null }; 
 
   let clockTimer = null;
   const PREVIEW_ID = 'preview';
@@ -34,7 +31,7 @@
       div.style.color = el ? el.color : '';
       div.innerHTML = `
         <div class="slot-label">${slot.label}</div>
-        <div class="slot-symbol">${el ? el.symbol : '<span class="slot-empty">—</span>'}</div>
+        <div class="slot-symbol">${el ? WatchLab.icon(el.id) : '<span class="slot-empty">—</span>'}</div>
       `;
       div.addEventListener('click', () => {
         activeSlot = slot.key;
@@ -59,14 +56,14 @@
 
       if (isUnlockedEl) {
         card.innerHTML = `
-          <span class="el-symbol">${el.symbol}</span>
+          <span class="el-symbol">${WatchLab.icon(el.id)}</span>
           <p class="el-name">${el.name}</p>
           <div class="badge-row">
             <span class="badge-rarity" style="color:${WatchLab.rarityVar(el.rarity)}">${WatchLab.rarityLabel(el.rarity)}</span>
-            <span class="lock-icon" title="Unlocked">✓</span>
+            <span class="lock-icon" title="Unlocked">${WatchLab.icon('check')}</span>
           </div>
         `;
-        // clicking a card drops it into whichever slot is currently active
+        
         card.addEventListener('click', () => {
           selection[activeSlot] = el.id;
           renderSlots();
@@ -74,13 +71,13 @@
           renderPreview();
         });
       } else {
-        // locked cards are unclickable — just a teaser
+        
         card.innerHTML = `
-          <span class="el-symbol">${el.symbol}</span>
+          <span class="el-symbol">${WatchLab.icon(el.id)}</span>
           <p class="el-name">???</p>
           <div class="badge-row">
             <span class="badge-rarity" style="color:${WatchLab.rarityVar(el.rarity)}">${WatchLab.rarityLabel(el.rarity)}</span>
-            <span class="lock-icon" title="Locked">🔒</span>
+            <span class="lock-icon" title="Locked">${WatchLab.icon('lock')}</span>
           </div>
         `;
       }
@@ -101,8 +98,6 @@
   function renderPreview() {
     const wrap = document.getElementById('previewWrap');
     wrap.innerHTML = WatchLab.buildWatchSVG(currentConfig(), { idSuffix: PREVIEW_ID });
-    // kill the old interval before starting a new one, otherwise every
-    // slot change stacks another ticking timer on top of the last
     if (clockTimer) clearInterval(clockTimer);
     clockTimer = WatchLab.startClock(PREVIEW_ID);
     renderResultPanel();
@@ -118,7 +113,8 @@
     const rows = SLOTS.map(s => {
       const elId = selection[s.key];
       const el = elId ? WatchLab.elementById(elId) : null;
-      return `<div class="result-row"><span>${s.label}</span><span>${el ? el.symbol + ' ' + el.name : '—'}</span></div>`;
+      const value = el ? `${WatchLab.coloredIcon(el.id, el.color)} ${el.name}` : '—';
+      return `<div class="result-row"><span>${s.label}</span><span>${value}</span></div>`;
     }).join('');
     panel.innerHTML = `<strong>Watch combination result</strong><div class="result-rows">${rows}</div>`;
   }
@@ -130,8 +126,6 @@
     btn.textContent = complete ? 'Create watch' : `Fill all 5 slots (${SLOTS.filter(s => selection[s.key]).length}/5)`;
   }
 
-  // little status line under the button — shows how many watches are
-  // saved so far without needing to jump over to the Archive to check
   function renderSavedCount(flash) {
     const el = document.getElementById('savedCount');
     const count = WatchLab.getWatches().length;
@@ -148,8 +142,6 @@
     const complete = SLOTS.every(s => selection[s.key]);
     if (!complete) return;
 
-    // rarity of the finished watch = average rarity of its five parts,
-    // rounded to the nearest tier
     const rarityScore = SLOTS
       .map(s => WatchLab.RARITY_ORDER.indexOf(WatchLab.elementById(selection[s.key]).rarity))
       .reduce((a, b) => a + b, 0) / SLOTS.length;
@@ -170,11 +162,11 @@
 
     const btn = document.getElementById('generateBtn');
     const original = btn.textContent;
-    btn.textContent = '✓ Saved to Archive';
+    btn.innerHTML = `${WatchLab.icon('check')} Saved to Archive`;
     setTimeout(() => { btn.textContent = original; }, 1600);
   });
 
-  // --- discovery lab: combine two unlocked elements ---
+
 
   function renderCombineBar() {
     const bar = document.getElementById('combineBar');
@@ -183,7 +175,8 @@
     function slotHTML(which) {
       const id = combineChoice[which];
       const el = id ? WatchLab.elementById(id) : null;
-      return `<button class="combine-slot" data-which="${which}" title="Choose element ${which.toUpperCase()}">${el ? el.symbol : '?'}</button>`;
+      const inner = el ? `<span style="color:${el.color}">${WatchLab.icon(el.id)}</span>` : '?';
+      return `<button class="combine-slot" data-which="${which}" title="Choose element ${which.toUpperCase()}">${inner}</button>`;
     }
 
     bar.innerHTML = `
@@ -203,9 +196,6 @@
     go.addEventListener('click', handleCombine);
   }
 
-  // no dropdown here — clicking a combine slot just cycles through the
-  // unlocked elements one at a time. simple, and there's rarely more
-  // than a handful unlocked at once so it doesn't get tedious
   function openCombinePicker(which, unlocked) {
     const options = unlocked;
     if (options.length === 0) return;
@@ -225,26 +215,26 @@
 
     if (!result) {
       showModal({
-        symbol: '💤',
+        symbol: WatchLab.coloredIcon('none', 'var(--ink-soft)'),
         title: `${elA.name} and ${elB.name} don't react`,
-        desc: `Nothing happens when ${elA.symbol} meets ${elB.symbol}. Not every pair is meant to combine.`,
+        desc: `Nothing happens when you put them together. Not every pair is meant to combine.`,
         cta: 'Close',
       });
       return;
     }
 
     if (result.type === 'unlock') {
-      renderNavAndGrids(); // refresh nav progress + element grid right away
+      renderNavAndGrids(); 
       if (result.alreadyKnown) {
         showModal({
-          symbol: result.element.symbol,
+          symbol: WatchLab.coloredIcon(result.element.id, result.element.color),
           title: `You already have ${result.element.name}`,
           desc: `You unlocked ${result.element.name} from this pair a while back — it's sitting in your element grid whenever you need it.`,
           cta: 'Close',
         });
       } else {
         showModal({
-          symbol: result.element.symbol,
+          symbol: WatchLab.coloredIcon(result.element.id, result.element.color),
           title: `You've unlocked ${result.element.name}`,
           desc: result.element.description,
           cta: 'Use it now',
@@ -253,7 +243,7 @@
       }
     } else if (result.type === 'watch') {
       showModal({
-        symbol: result.discovery.symbol,
+        symbol: WatchLab.coloredIcon(result.discovery.name.toLowerCase(), WatchLab.rarityVar(result.discovery.rarity)),
         title: result.alreadyKnown
           ? `You've already found the ${result.discovery.name} watch`
           : `You've discovered the ${result.discovery.name} watch`,
@@ -267,13 +257,13 @@
     renderCombineBar();
   }
 
-  
+
 
   function showModal({ symbol, title, desc, cta, onUse }) {
     const overlay = document.getElementById('modalOverlay');
     overlay.innerHTML = `
       <div class="modal-card">
-        <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+        <button class="modal-close" id="modalClose" aria-label="Close">${WatchLab.icon('close')}</button>
         <div class="modal-symbol">${symbol}</div>
         <h3 class="modal-title">${title}</h3>
         <p class="modal-desc">${desc}</p>
@@ -300,8 +290,7 @@
     renderCombineBar();
   }
 
-  // --- kick everything off ---
-
+  
   renderSlots();
   renderElementGrid();
   renderPreview();

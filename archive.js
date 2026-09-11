@@ -1,7 +1,3 @@
-// Logic for discover.html — the Archive. Pulls everything out of
-// localStorage (via app.js) and renders the full catalog: elements,
-// discovery combinations, and every watch that's been generated.
-
 (async function () {
   await WatchLab.loadData();
 
@@ -45,15 +41,13 @@
       card.style.setProperty('--el-color', el.color);
 
       if (!unlocked) {
-        // keep it vague on purpose — no name, no description, just the
-        // rarity tier as a hint of what's out there to find
-        card.innerHTML = `
-          <span class="el-symbol">${el.symbol}</span>
+          card.innerHTML = `
+          <span class="el-symbol">${WatchLab.icon(el.id)}</span>
           <p class="el-name">???</p>
           <p class="el-desc">Not yet discovered. Try combining elements in the Lab.</p>
           <div class="badge-row">
             <span class="badge-rarity" style="color:${WatchLab.rarityVar(el.rarity)}">${WatchLab.rarityLabel(el.rarity)}</span>
-            <span class="lock-icon">🔒</span>
+            <span class="lock-icon">${WatchLab.icon('lock')}</span>
           </div>
         `;
         grid.appendChild(card);
@@ -62,17 +56,17 @@
 
       const usedIn = WatchLab.watchesUsingElement(el.id);
       const usedHTML = usedIn.length
-        ? `<div class="el-props">${usedIn.slice(0, 4).map(w => `<li>Watch made ${new Date(w.createdAt).toLocaleDateString()} — ${WatchLab.rarityLabel(w.rarity)}</li>`).join('')}</div>`
+        ? `<div class="el-props">${usedIn.slice(0, 4).map(w => `<li>Watch made ${new Date(w.createdAt).toLocaleDateString()}, ${WatchLab.rarityLabel(w.rarity)}</li>`).join('')}</div>`
         : `<p class="el-desc" style="margin-top:10px;">Not used in a watch yet.</p>`;
 
       card.innerHTML = `
-        <span class="el-symbol">${el.symbol}</span>
+        <span class="el-symbol">${WatchLab.icon(el.id)}</span>
         <p class="el-name">${el.name}</p>
         <p class="el-desc">${el.description}</p>
         <ul class="el-props">${el.properties.map(p => `<li>${p}</li>`).join('')}</ul>
         <div class="badge-row">
           <span class="badge-rarity" style="color:${WatchLab.rarityVar(el.rarity)}">${WatchLab.rarityLabel(el.rarity)}</span>
-          <span class="lock-icon" title="Unlocked">✓</span>
+          <span class="lock-icon" title="Unlocked">${WatchLab.icon('check')}</span>
         </div>
         <div class="section-note" style="margin:12px 0 4px;font-size:0.72rem;">Watches using ${el.name}</div>
         ${usedHTML}
@@ -85,8 +79,6 @@
     const list = document.getElementById('comboList');
     list.innerHTML = '';
 
-    // unlock combos and watch-discovery combos both get listed together,
-    // tagged with a "kind" so we know which fields to read off each one
     const allCombos = [
       ...WatchLab.unlockCombos().map(c => ({ ...c, kind: 'unlock' })),
       ...WatchLab.watchDiscoveries().map(c => ({ ...c, kind: 'watch' })),
@@ -99,10 +91,9 @@
       row.className = 'combo-row' + (discovered ? '' : ' pending');
 
       if (!discovered) {
-        // don't reveal which two elements it even needs — half the fun
-        // is stumbling into it
+        
         row.innerHTML = `
-          <div class="combo-parts"><span>🔒</span><span class="combo-arrow">+</span><span>🔒</span></div>
+          <div class="combo-parts"><span>${WatchLab.icon('lock')}</span><span class="combo-arrow">+</span><span>${WatchLab.icon('lock')}</span></div>
           <div class="combo-arrow">→</div>
           <div class="combo-result"><span class="combo-result-name">Undiscovered combination</span></div>
         `;
@@ -118,15 +109,15 @@
       let desc = '';
       if (combo.kind === 'unlock') {
         const resEl = WatchLab.elementById(combo.unlocks);
-        resultHTML = `<span>${resEl.symbol}</span><span class="combo-result-name">${resEl.name}</span>`;
+        resultHTML = `${WatchLab.coloredIcon(resEl.id, resEl.color)}<span class="combo-result-name">${resEl.name}</span>`;
         desc = resEl.description;
       } else {
-        resultHTML = `<span>${combo.symbol}</span><span class="combo-result-name">${combo.name} watch</span>`;
+        resultHTML = `${WatchLab.coloredIcon(combo.name.toLowerCase(), WatchLab.rarityVar(rarity))}<span class="combo-result-name">${combo.name} watch</span>`;
         desc = combo.description;
       }
 
       row.innerHTML = `
-        <div class="combo-parts"><span>${elA.symbol}</span><span class="combo-arrow">+</span><span>${elB.symbol}</span></div>
+        <div class="combo-parts">${WatchLab.coloredIcon(elA.id, elA.color)}<span class="combo-arrow">+</span>${WatchLab.coloredIcon(elB.id, elB.color)}</div>
         <div class="combo-arrow">→</div>
         <div class="combo-result">
           ${resultHTML}
@@ -149,9 +140,6 @@
     }
     gallery.innerHTML = '';
     watches.forEach((w, i) => {
-      // "gallery0", "gallery1"... — has to be unique per card so each
-      // watch's hands get their own ticking clock instead of all
-      // pointing at the same DOM ids
       const idSuffix = 'gallery' + i;
       const config = {
         caseEl: WatchLab.elementById(w.caseEl),
@@ -162,7 +150,6 @@
       };
       const card = document.createElement('div');
       card.className = 'mini-watch-card';
-      
       card.innerHTML = `
         ${WatchLab.buildWatchSVG(config, { idSuffix })}
         <div class="mini-watch-time">${WatchLab.rarityLabel(w.rarity)} · ${new Date(w.createdAt).toLocaleDateString()}</div>

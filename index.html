@@ -4,13 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Watch Lab · Watch Lab</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <nav class="topnav">
   <a class="brand" href="index.html">
-    <span class="brand-mark">⌚</span>
+    <span class="brand-mark">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="8"/>
+        <path d="M12 8v4l3 2"/>
+        <rect x="10" y="1.5" width="4" height="2" rx="0.5"/>
+      </svg>
+    </span>
     <span class="brand-word">Watch Lab</span>
   </a>
   <div class="nav-links">
@@ -33,7 +40,7 @@
     <aside class="preview-pane">
       <div class="watch-svg-wrap" id="previewWrap"></div>
       <div class="digital-time" id="digitalTime-preview">--:--:--</div>
-      <p class="preview-caption">Ticks in real time — your device's clock.</p>
+      <p class="preview-caption">Ticks in real time, matching your device's clock.</p>
       <button class="generate-btn" id="generateBtn" disabled>Fill all 5 slots (0/5)</button>
       <div class="saved-count" id="savedCount"></div>
       <div class="result-panel" id="resultPanel"></div>
