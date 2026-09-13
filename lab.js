@@ -142,6 +142,7 @@
     const complete = SLOTS.every(s => selection[s.key]);
     if (!complete) return;
 
+
     const rarityScore = SLOTS
       .map(s => WatchLab.RARITY_ORDER.indexOf(WatchLab.elementById(selection[s.key]).rarity))
       .reduce((a, b) => a + b, 0) / SLOTS.length;
@@ -160,11 +161,13 @@
     WatchLab.addWatch(watch);
     renderSavedCount(true);
 
+
     const btn = document.getElementById('generateBtn');
     const original = btn.textContent;
     btn.innerHTML = `${WatchLab.icon('check')} Saved to Archive`;
     setTimeout(() => { btn.textContent = original; }, 1600);
   });
+
 
 
 
@@ -178,6 +181,7 @@
       const inner = el ? `<span style="color:${el.color}">${WatchLab.icon(el.id)}</span>` : '?';
       return `<button class="combine-slot" data-which="${which}" title="Choose element ${which.toUpperCase()}">${inner}</button>`;
     }
+
 
     bar.innerHTML = `
       ${slotHTML('a')}
@@ -202,11 +206,13 @@
     const current = combineChoice[which];
     const idx = current ? options.indexOf(current) : -1;
     const next = options[(idx + 1) % options.length];
+    
     combineChoice[which] = next;
     renderCombineBar();
   }
 
   function handleCombine() {
+    
     const { a, b } = combineChoice;
     if (!a || !b || a === b) return;
     const result = WatchLab.tryCombine(a, b);
@@ -222,6 +228,8 @@
       });
       return;
     }
+
+
 
     if (result.type === 'unlock') {
       renderNavAndGrids(); 

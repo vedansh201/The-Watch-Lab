@@ -29,20 +29,25 @@
     `;
   }
 
+
+
   function renderElementArchive() {
     const grid = document.getElementById('archiveGrid');
     const unlockedIds = WatchLab.getUnlocked();
     grid.innerHTML = '';
 
+
     WatchLab.allElements().forEach(el => {
       const unlocked = unlockedIds.includes(el.id);
       const card = document.createElement('div');
+    
       card.className = 'el-card' + (unlocked ? '' : ' locked');
       card.style.setProperty('--el-color', el.color);
 
       if (!unlocked) {
           card.innerHTML = `
           <span class="el-symbol">${WatchLab.icon(el.id)}</span>
+    
           <p class="el-name">???</p>
           <p class="el-desc">Not yet discovered. Try combining elements in the Lab.</p>
           <div class="badge-row">
@@ -61,6 +66,7 @@
 
       card.innerHTML = `
         <span class="el-symbol">${WatchLab.icon(el.id)}</span>
+    
         <p class="el-name">${el.name}</p>
         <p class="el-desc">${el.description}</p>
         <ul class="el-props">${el.properties.map(p => `<li>${p}</li>`).join('')}</ul>
@@ -81,12 +87,14 @@
 
     const allCombos = [
       ...WatchLab.unlockCombos().map(c => ({ ...c, kind: 'unlock' })),
+    
       ...WatchLab.watchDiscoveries().map(c => ({ ...c, kind: 'watch' })),
     ];
 
     allCombos.forEach(combo => {
       const [aId, bId] = combo.elements;
       const discovered = WatchLab.isComboDiscovered(aId, bId);
+    
       const row = document.createElement('div');
       row.className = 'combo-row' + (discovered ? '' : ' pending');
 
@@ -96,7 +104,8 @@
           <div class="combo-parts"><span>${WatchLab.icon('lock')}</span><span class="combo-arrow">+</span><span>${WatchLab.icon('lock')}</span></div>
           <div class="combo-arrow">→</div>
           <div class="combo-result"><span class="combo-result-name">Undiscovered combination</span></div>
-        `;
+          `;
+          
         list.appendChild(row);
         return;
       }
