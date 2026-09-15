@@ -23,5 +23,18 @@ unlocked to create your own watches.
 - SVG icons for the different elements.
 - `localStorage` to save progress directly in the browser.
 
+
+ScreenShots of the website:
+
+<img width="1900" height="921" alt="image" src="https://github.com/user-attachments/assets/a09149af-0e9c-4b5e-ba34-844f239c3ae6" />
+
+
+
+<img width="1892" height="938" alt="image" src="https://github.com/user-attachments/assets/04c3878f-a46b-4500-aa18-8e53c43f84bd" />
+
+
+
+
+
 And i think that's it..
 
